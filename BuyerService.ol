@@ -1,4 +1,4 @@
-from .InterfaceModule import SellerBuyerInterface, ShipperBuyerInterface, BuyerSellerInterface
+from .InterfaceModule import SellerInterface, BuyerShipperInterface, BuyerSellerInterface
 
 include "console.iol"
 
@@ -7,21 +7,21 @@ service BuyerService {
     execution{ single }
 
     outputPort Seller {
-        Location: "socket://localhost:8020"
+        Location: "socket://localhost:8000"
         Protocol: http { format = "json" }
-        Interfaces: BuyerSellerInterface
+        Interfaces: SellerInterface
     }
 
     inputPort ShipperBuyer {
         location: "socket://localhost:8006"
         protocol: http { format = "json" }
-        interfaces: ShipperBuyerInterface
+        interfaces: BuyerShipperInterface
     }
 
     inputPort SellerBuyer {
         location: "socket://localhost:8001"
         protocol: http { format = "json" }
-        interfaces: SellerBuyerInterface
+        interfaces: BuyerSellerInterface
     }
 
     main {
@@ -29,13 +29,13 @@ service BuyerService {
         {
             [quote(price)] {
                 if (price < 20) {
-                    println@Console( "Buyer: Price lower than 20. Accepting...")()
+                    println@Console( "price lower than 20")()
                     accept@Seller("Ok to buy chips for " + price)
-                    println@Console("Buyer: Waiting for invoice")()
+                    println@Console("waiting for invoice")()
                     [details(invoice)]
-                    println@Console( "Buyer: Received " + invoice + " from Shipper!")()
+                    println@Console( "Received " + invoice + " from Shipper!")()
                 } else {
-                    println@Console( "Buyer: Price not lower than 20. Rejecting...")()
+                    println@Console( "price not lower than 20")()
                     reject@Seller("Not ok to buy chips for " + price)
                 }
             }
