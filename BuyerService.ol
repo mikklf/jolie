@@ -7,7 +7,7 @@ service BuyerService {
     execution{ single }
 
     outputPort Seller {
-        Location: "socket://localhost:8020"
+        Location: "socket://localhost:8000"
         Protocol: http { format = "json" }
         Interfaces: BuyerSellerInterface
     }
