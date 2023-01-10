@@ -1,4 +1,4 @@
-from .InterfaceModule import BuyerShipperInterface, SellerShipperInterface
+from .InterfaceModule import ShipperBuyerInterface, SellerShipperInterface
 
 include "console.iol"
 
@@ -9,7 +9,7 @@ service SellerService {
     outputPort Buyer {
         location: "socket://localhost:8006"
         protocol: http { format = "json" }
-        interfaces: BuyerShipperInterface
+        interfaces: ShipperBuyerInterface
     }
 
     inputPort SellerShipper {
@@ -20,8 +20,9 @@ service SellerService {
 
     main {
         [ order ( product ) ] {
+            println@Console("Shipper: Received order for " + product + " from seller.")()
             details@Buyer("invoice for " + product)
-            println@Console("Sent invoice")()
+            println@Console("Shipper: Sent invoice for " + product + " to buyer.")()
         }
     }
 }

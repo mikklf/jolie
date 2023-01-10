@@ -1,13 +1,14 @@
+// Interface naming pattern:
+// {Sender}{Receiver}Interface
 
-interface SellerInterface {
+interface BuyerSellerInterface {
     OneWay:
         ask ( string ),
         accept ( string ),
         reject ( string ),
 }
 
-
-interface BuyerShipperInterface {
+interface ShipperBuyerInterface {
     OneWay:
         details ( string )
 }
@@ -17,16 +18,7 @@ interface SellerShipperInterface {
         order ( string ),
 }
 
-interface BuyerSellerInterface {
+interface SellerBuyerInterface {
     OneWay:
         quote ( int ),
-}
-
-
-interface ExtendedBuyerSellerInterface {
-    OneWay:
-        accept ( string ),
-        reject ( string )
-    RequestResponse:
-        ask ( string ) ( int ),
 }
