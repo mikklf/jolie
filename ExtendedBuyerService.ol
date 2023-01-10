@@ -24,14 +24,8 @@ service BuyerService {
         interfaces: ShipperBuyerInterface
     }
 
-    inputPort SellerBuyer1 {
+    inputPort SellerBuyer {
         location: "socket://localhost:8001"
-        protocol: http { format = "json" }
-        interfaces: SellerBuyerInterface
-    }
-
-    inputPort SellerBuyer2 {
-        location: "socket://localhost:8002"
         protocol: http { format = "json" }
         interfaces: SellerBuyerInterface
     }

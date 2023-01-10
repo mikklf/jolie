@@ -7,7 +7,7 @@ service SellerService2 {
     execution{ concurrent }
 
     outputPort Buyer {
-        Location: "socket://localhost:8002"
+        Location: "socket://localhost:8001"
         Protocol: http { format = "json" }
         Interfaces: SellerBuyerInterface
     }
