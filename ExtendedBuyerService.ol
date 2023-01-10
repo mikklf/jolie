@@ -46,10 +46,12 @@ service BuyerService {
                 if (price1 < price2) {
                     println@Console( "Buyer: Seller1 price lower than Seller2. Accepting Seller1...")()
                     accept@Seller1("Ok to buy chips for " + price)
+					|
                     reject@Seller2("Not ok to buy chips for " + price)
                 } else {
                     println@Console( "Buyer: Seller2 price lower than Seller1. Accepting Seller2...")()
                     accept@Seller2("Ok to buy chips for " + price)
+					|
                     reject@Seller1("Not ok to buy chips for " + price)
                 }
 
@@ -60,6 +62,7 @@ service BuyerService {
             } else {
                 println@Console( "Buyer: Both prices higher then 20. Rejecting both...")()
                 reject@Seller1("Not ok to buy chips for " + price)
+				|
                 reject@Seller2("Not ok to buy chips for " + price)
             }
             
