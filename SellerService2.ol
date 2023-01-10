@@ -2,12 +2,12 @@ from .InterfaceModule import BuyerSellerInterface, SellerBuyerInterface, SellerS
 
 include "console.iol"
 
-service SellerService {
+service SellerService2 {
 
     execution{ concurrent }
 
     outputPort Buyer {
-        Location: "socket://localhost:8001"
+        Location: "socket://localhost:8002"
         Protocol: http { format = "json" }
         Interfaces: SellerBuyerInterface
     }
@@ -21,7 +21,7 @@ service SellerService {
     
 
     inputPort BuyerSeller {
-        location: "socket://localhost:8000"
+        location: "socket://localhost:8020"
         protocol: http { format = "json" }
         interfaces: BuyerSellerInterface
     }
@@ -29,8 +29,8 @@ service SellerService {
 
     main {
         [ ask( request ) ] { 
-            quote@Buyer(17)
-            println@Console("Seller: Sent price of 17 for chips to buyer")()
+            quote@Buyer(23)
+            println@Console("Seller: Sent price of 23 for chips to buyer")()
         }
 
         [ accept( message ) ] {
