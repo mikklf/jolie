@@ -1,4 +1,4 @@
-from .InterfaceModule import SellerBuyerInterface, ShipperBuyerInterface, BuyerSellerInterface
+from .InterfaceModule import SellerBuyerInterface, ShipperBuyerInterface, BuyerSellerInterface, ExtendedBuyerSellerInterface
 
 include "console.iol"
 
@@ -9,13 +9,13 @@ service BuyerService {
     outputPort Seller1 {
         Location: "socket://localhost:8000"
         Protocol: http { format = "json" }
-        Interfaces: BuyerSellerInterface
+        Interfaces: ExtendedBuyerSellerInterface
     }
     
     outputPort Seller2 {
         Location: "socket://localhost:8020"
         Protocol: http { format = "json" }
-        Interfaces: BuyerSellerInterface
+        Interfaces: ExtendedBuyerSellerInterface
     }
 
     inputPort ShipperBuyer {
@@ -24,23 +24,8 @@ service BuyerService {
         interfaces: ShipperBuyerInterface
     }
 
-    inputPort SellerBuyer1 {
-        location: "socket://localhost:8001"
-        protocol: http { format = "json" }
-        interfaces: SellerBuyerInterface
-    }
-
-    inputPort SellerBuyer2 {
-        location: "socket://localhost:8002"
-        protocol: http { format = "json" }
-        interfaces: SellerBuyerInterface
-    }
-
     main {
-        ask@Seller1("chips")
-        [quote(price1)]
-        ask@Seller2("chips") 
-        [quote(price2)]
+        ask@Seller1("chips")(price1) | ask@Seller2("chips")(price2)
         {       
             if (price1 < 20 || price2 < 20) { 
                 if (price1 < price2) {
@@ -61,9 +46,7 @@ service BuyerService {
                 println@Console( "Buyer: Both prices higher then 20. Rejecting both...")()
                 reject@Seller1("Not ok to buy chips for " + price)
                 reject@Seller2("Not ok to buy chips for " + price)
-            }
-            
+            }   
         }
-
     }
 }

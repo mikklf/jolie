@@ -1,4 +1,4 @@
-from .InterfaceModule import BuyerSellerInterface, SellerBuyerInterface, SellerShipperInterface
+from .InterfaceModule import BuyerSellerInterface, SellerBuyerInterface, SellerShipperInterface, ExtendedBuyerSellerInterface
 
 include "console.iol"
 
@@ -23,15 +23,15 @@ service SellerService2 {
     inputPort BuyerSeller {
         location: "socket://localhost:8020"
         protocol: http { format = "json" }
-        interfaces: BuyerSellerInterface
+        interfaces: ExtendedBuyerSellerInterface
     }
 
 
     main {
-        [ ask( request ) ] { 
-            quote@Buyer(23)
-            println@Console("Seller: Sent price of 23 for chips to buyer")()
-        }
+        [ ask( request ) ( price )  { 
+            println@Console("Seller: Replied price of 23 for chips to buyer")()
+            price = 23
+        } ]
 
         [ accept( message ) ] {
             println@Console("Seller: Buyer accepted price for chips")()

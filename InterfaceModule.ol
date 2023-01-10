@@ -22,3 +22,12 @@ interface SellerBuyerInterface {
     OneWay:
         quote ( int ),
 }
+
+
+interface ExtendedBuyerSellerInterface {
+    OneWay:
+        accept ( string ),
+        reject ( string )
+    RequestResponse:
+        ask ( string ) ( int ),
+}
